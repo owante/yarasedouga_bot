@@ -45,5 +45,5 @@ class TwitterClient
 end
 
 if __FILE__ == $0
-  TweetClient.new.tweet
+  TwitterClient.new.tweet
 end
