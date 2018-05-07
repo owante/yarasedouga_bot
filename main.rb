@@ -43,3 +43,7 @@ class TwitterClient
     @csv_data.map { |csv| csv.to_a.flatten }
   end
 end
+
+if __FILE__ == $0
+  TweetClient.new.tweet
+end
