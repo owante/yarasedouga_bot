@@ -1,8 +1,7 @@
 # coding: utf-8
 require 'csv'
 require 'twitter'
-require 'dotenv'
-Dotenv.load
+
 class TwitterClient
   TEN_STONES_RARE_PROBABILITY = 7.5 # 定額ガチャ最レアの確率に準拠し、それの3匹分に相当する（ネイ進化後等を除く）（2018年5月現在）
   WON  = 'won'
