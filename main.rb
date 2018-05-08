@@ -3,7 +3,7 @@ require 'csv'
 require 'twitter'
 
 class TwitterClient
-  TEN_STONES_RARE_PROBABILITY = 7.5 # 定額ガチャ最レアの確率に準拠し、それの3匹分に相当する（ネイ進化後等を除く）（2018年5月現在）
+  TEN_STONES_RARE_PROBABILITY = 2.5 # 定額ガチャ最レアの一点狙いの確率に準拠する（ネイ進化後等を除く）（2018年5月現在）
   WON  = 'won'
   LOST = 'lost'
 
