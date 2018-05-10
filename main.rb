@@ -3,10 +3,6 @@ require 'csv'
 require 'twitter'
 
 class TwitterClient
-  TEN_STONES_RARE_PROBABILITY = 2.5 # 定額ガチャ最レアの一点狙いの確率に準拠する（ネイ進化後等を除く）（2018年5月現在）
-  WON  = 'won'
-  LOST = 'lost'
-
   def initialize
     @client = Twitter::REST::Client.new do |config|
       config.consumer_key        = ENV['TWITTER_CONSUMER_KEY']
@@ -16,29 +12,35 @@ class TwitterClient
     end
   end
 
-  def words_to_tweet
+  def tweet(line)
+    @client.update(line)
+  end
+end
+
+class Line
+  MOST_RARE_PROBABILITY = 1.5 # 季節ガチャ最レア一点狙いの確率に準拠する
+  WON  = 'won'
+  LOST = 'lost'
+
+  def tweet_entities
+    gacha ? load_csv_words(WON) : load_csv_words(LOST)
+    @csv_data.map { |csv| csv.to_a.flatten }
+  end
+
+  def line
     temporary_entity = tweet_entities.sample
     temporary_entity[rand(temporary_entity.size)]
   end
 
-  def tweet
-    @client.update(words_to_tweet)
-  end
-
   private
 
-  def gacha(weight = TEN_STONES_RARE_PROBABILITY)
-    rand <= weight/100.0
+  def gacha(weight = MOST_RARE_PROBABILITY)
+    rand <= weight / 100.0
   end
 
   def load_csv_words(result)
     Dir.chdir("./csv/#{result}")
     @csv_data = Dir.entries('.').select { |f| /csv/ =~ f }.map { |f| CSV.read(f) }
     Dir.chdir("../../")
-  end
-
-  def tweet_entities
-    gacha ? load_csv_words(WON) : load_csv_words(LOST)
-    @csv_data.map { |csv| csv.to_a.flatten }
   end
 end
