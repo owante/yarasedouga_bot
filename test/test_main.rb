@@ -10,7 +10,6 @@ end
 class LineTest < Test::Unit::TestCase
   def test_initialize
     assert Line.new(Gacha.gacha)
-    assert Line.new(Gacha.gacha)
     assert_raise { Line.new }
   end
 
