@@ -10,8 +10,9 @@ end
 class LineTest < Test::Unit::TestCase
   def test_initialize
     assert Line.new(Gacha.gacha)
-    assert Line.new(Gacha.gacha)
     assert_raise { Line.new }
+    assert_raise { Line.new('') }
+    assert_raise { Line.new(nil) }
   end
 
   def test_tweet_entities

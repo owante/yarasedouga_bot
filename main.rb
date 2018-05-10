@@ -19,13 +19,13 @@ end
 
 class Line
   def initialize(result)
-    fail if result.empty?
+    fail ArgumentError if !result || result.empty?
     @result = result
   end
 
   def tweet_entities(choice = nil)
     if choice
-      fail if choice.empty?
+      fail ArgumentError if choice.empty?
       load_csv_words(choice)
     else
       load_csv_words(@result)
