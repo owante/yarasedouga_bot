@@ -8,5 +8,6 @@ end
 
 # URL'/random_tweet'でアクセス
 get '/random_tweet' do
-  TwitterClient.new.tweet
+  line = Line.new.line
+  TwitterClient.new.tweet(line)
 end
