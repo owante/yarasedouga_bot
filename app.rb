@@ -8,6 +8,6 @@ end
 
 # URL'/random_tweet'でアクセス
 get '/random_tweet' do
-  line = Line.new.line
+  line = Line.new(Gacha.gacha).line
   TwitterClient.new.tweet(line)
 end

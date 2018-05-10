@@ -18,12 +18,18 @@ class TwitterClient
 end
 
 class Line
-  MOST_RARE_PROBABILITY = 1.5 # 季節ガチャ最レア一点狙いの確率に準拠する
-  WON  = 'won'
-  LOST = 'lost'
+  def initialize(result)
+    fail if result.empty?
+    @result = result
+  end
 
-  def tweet_entities
-    gacha ? load_csv_words(WON) : load_csv_words(LOST)
+  def tweet_entities(choice = nil)
+    if choice
+      fail if choice.empty?
+      load_csv_words(choice)
+    else
+      load_csv_words(@result)
+    end
     @csv_data.map { |csv| csv.to_a.flatten }
   end
 
@@ -34,13 +40,21 @@ class Line
 
   private
 
-  def gacha(weight = MOST_RARE_PROBABILITY)
-    rand <= weight / 100.0
-  end
-
   def load_csv_words(result)
     Dir.chdir("./csv/#{result}")
     @csv_data = Dir.entries('.').select { |f| /csv/ =~ f }.map { |f| CSV.read(f) }
     Dir.chdir("../../")
+  end
+end
+
+class Gacha
+  MOST_RARE_PROBABILITY = 0.5 # ☆7フェス限一点狙いの確率に準拠する
+  module Result
+    WON  = 'won'
+    LOST = 'lost'
+  end
+
+  def self.gacha(weight = MOST_RARE_PROBABILITY)
+    rand <= weight / 100.0 ? Result::WON : Result::LOST
   end
 end
